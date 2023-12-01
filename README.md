@@ -17,6 +17,6 @@ II. Carpeta: BOS - idex.jsx: Contiene el código necesario para deployear tu pro
 
 III. Carpeta: smart-contracts.
 
-Los pasos para Jugar, son los siguientes:
+    Contiene los contratos EVM para la versión 2 del juego donde juegas con un smart contract
 
 IMPORTANTE: Manten a la vista el repositorio para la segunda version: "Jugando contra un Smart Contract".
