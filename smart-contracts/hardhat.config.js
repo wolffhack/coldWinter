@@ -18,7 +18,7 @@ module.exports = {
     },
   },
   networks: {
-    mumbai: {
+    polygonMumbai: {
       url: ALCHEMY_API_KEY,
       accounts: [PRIVATE_KEY],
       chainId: 80001,

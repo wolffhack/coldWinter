@@ -1,15 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+// Inicializamos el Contrato
 contract PiedraPapelTijera {
+
+    //Definimos Variables
     address public owner;
     address public jugador1;
     address public jugador2;
     address public ganador;
     bool public juegoEnCurso;
 
+    //Opciones a elegir
     enum Opcion { Ninguna, Piedra, Papel, Tijera }
 
+    //Struct del Jugador
     struct Jugador {
         Opcion eleccion;
         bool haJugado;
