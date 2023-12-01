@@ -3,7 +3,8 @@ pragma solidity ^0.8.19;
 
 contract PiedraPapelTijera {
     address public owner;
-    address public jugador;
+    address public jugador1;
+    address public jugador2;
     address public ganador;
     bool public juegoEnCurso;
 
