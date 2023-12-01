@@ -1,0 +1,147 @@
+[
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "ganador",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum PiedraPapelTijera.Opcion",
+          "name": "eleccionGanadora",
+          "type": "uint8"
+        }
+      ],
+      "name": "JuegoTerminado",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "ganador",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PiedraPapelTijera.Opcion",
+          "name": "eleccion",
+          "type": "uint8"
+        }
+      ],
+      "name": "hacerEleccion",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "juegoEnCurso",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "jugador1",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "jugador2",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "jugadorDos",
+      "outputs": [
+        {
+          "internalType": "enum PiedraPapelTijera.Opcion",
+          "name": "eleccion",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bool",
+          "name": "haJugado",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "jugadorUno",
+      "outputs": [
+        {
+          "internalType": "enum PiedraPapelTijera.Opcion",
+          "name": "eleccion",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bool",
+          "name": "haJugado",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "unirseAlJuego",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
