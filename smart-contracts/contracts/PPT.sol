@@ -1,85 +1,102 @@
-// // SPDX-License-Identifier: MIT
-// pragma solidity ^0.8.19;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
 
-// contract PiedraPapelTijera {
-//     address public owner;
-//     address public jugador;
-//     address ganador;
-//     bool public juegoEnCurso;
+contract PiedraPapelTijera {
+    address public owner;
+    address public jugador;
+    address public ganador;
+    bool public juegoEnCurso;
 
-//     enum Opcion { Ninguna, Piedra, Papel, Tijera }
+    enum Opcion { Ninguna, Piedra, Papel, Tijera }
 
-//     Opcion public eleccionJugador;
-//     Opcion public eleccionContrato;
+    struct Jugador {
+        Opcion eleccion;
+        bool haJugado;
+    }
 
-//     event JuegoTerminado(address ganador, Opcion eleccionGanadora);
+    Jugador public jugadorUno;
+    Jugador public jugadorDos;
 
-//     modifier soloOwner() {
-//         require(msg.sender == owner, "Solo el propietario puede llamar a esta funcion");
-//         _;
-//     }
+    event JuegoTerminado(address ganador, Opcion eleccionGanadora);
 
-//     modifier soloJugador() {
-//         require(msg.sender == jugador, "Solo el jugador puede llamar a esta funcion");
-//         _;
-//     }
+    modifier soloOwner() {
+        require(msg.sender == owner, "Solo el propietario puede llamar a esta funcion");
+        _;
+    }
 
-//     modifier juegoNoEnCurso() {
-//         require(!juegoEnCurso, "El juego ya esta en curso");
-//         _;
-//     }
+    modifier soloJugador() {
+        require(msg.sender == jugador1 || msg.sender == jugador2, "Solo los jugadores pueden llamar a esta funcion");
+        _;
+    }
 
-//     modifier juegoEnCursoActual() {
-//         require(juegoEnCurso, "El juego no esta en curso");
-//         _;
-//     }
+    modifier juegoNoEnCurso() {
+        require(!juegoEnCurso, "El juego ya esta en curso");
+        _;
+    }
 
-//     constructor() {
-//         owner = msg.sender;
-//     }
+    modifier juegoEnCursoActual() {
+        require(juegoEnCurso, "El juego no esta en curso");
+        _;
+    }
 
-//     function unirseAlJuego() external soloOwner juegoNoEnCurso {
-//         require(jugador == address(0), "El juego ya tiene un jugador");
-//         jugador = msg.sender;
-//         juegoEnCurso = true;
-//     }
+    constructor() {
+        owner = msg.sender;
+    }
 
-//     function hacerEleccion(Opcion eleccion) external soloJugador juegoEnCursoActual {
-//         require(eleccion == Opcion.Piedra || eleccion == Opcion.Papel || eleccion == Opcion.Tijera, "Opcion no valida");
+    function unirseAlJuego() external juegoNoEnCurso {
+        require(jugador1 == address(0) || jugador2 == address(0), "El juego ya tiene dos jugadores");
+        if (jugador1 == address(0)) {
+            jugador1 = msg.sender;
+        } else {
+            jugador2 = msg.sender;
+            juegoEnCurso = true;
+        }
+    }
 
-//         eleccionJugador = eleccion;
-//         eleccionContrato = generarEleccionContrato();
+    function hacerEleccion(Opcion eleccion) external soloJugador juegoEnCursoActual {
+        if (msg.sender == jugador1) {
+            jugadorUno.eleccion = eleccion;
+            jugadorUno.haJugado = true;
+        } else {
+            jugadorDos.eleccion = eleccion;
+            jugadorDos.haJugado = true;
+        }
 
-//         determinarGanador();
-//     }
+        if (jugadorUno.haJugado && jugadorDos.haJugado) {
+            determinarGanador();
+        }
+    }
 
-//     function generarEleccionContrato() private view returns (Opcion) {
-//         uint256 eleccionRandom = uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, jugador))) % 3;
-//         return Opcion(eleccionRandom + 1);
-//     }
+    function generarEleccionContrato() private view returns (Opcion) {
+        uint256 eleccionRandom = uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, jugador1, jugador2))) % 3;
+        return Opcion(eleccionRandom + 1);
+    }
 
-//     function determinarGanador() private {
-//         if (eleccionJugador != Opcion.Ninguna) {
-//             if (eleccionJugador == eleccionContrato) {
-//                 emit JuegoTerminado(address(0), Opcion.Ninguna); // Empate
-//             } else if (
-//                 (eleccionJugador == Opcion.Piedra && eleccionContrato == Opcion.Tijera) ||
-//                 (eleccionJugador == Opcion.Papel && eleccionContrato == Opcion.Piedra) ||
-//                 (eleccionJugador == Opcion.Tijera && eleccionContrato == Opcion.Papel)
-//             ) {
-//                 emit JuegoTerminado(jugador, eleccionJugador);
-//             } else {
-//                 emit JuegoTerminado(address(this), eleccionContrato);
-//             }
+    function determinarGanador() private {
+        if (jugadorUno.eleccion != Opcion.Ninguna && jugadorDos.eleccion != Opcion.Ninguna) {
+            if (jugadorUno.eleccion == jugadorDos.eleccion) {
+                emit JuegoTerminado(address(0), Opcion.Ninguna); // Empate
+            } else if (
+                (jugadorUno.eleccion == Opcion.Piedra && jugadorDos.eleccion == Opcion.Tijera) ||
+                (jugadorUno.eleccion == Opcion.Papel && jugadorDos.eleccion == Opcion.Piedra) ||
+                (jugadorUno.eleccion == Opcion.Tijera && jugadorDos.eleccion == Opcion.Papel)
+            ) {
+                emit JuegoTerminado(jugador1, jugadorUno.eleccion);
+                ganador = jugador1;
+            } else {
+                emit JuegoTerminado(jugador2, jugadorDos.eleccion);
+                ganador = jugador2;
+            }
 
-//             reiniciarJuego();
-//         }
-//     }
+            reiniciarJuego();
+        }
+    }
 
-//     function reiniciarJuego() private {
-//         eleccionJugador = Opcion.Ninguna;
-//         eleccionContrato = Opcion.Ninguna;
-//     }
-
-    
-// }
+    function reiniciarJuego() private {
+        jugadorUno.eleccion = Opcion.Ninguna;
+        jugadorUno.haJugado = false;
+        jugadorDos.eleccion = Opcion.Ninguna;
+        jugadorDos.haJugado = false;
+        juegoEnCurso = false;
+    }
+}
