@@ -144,6 +144,33 @@ const Footer = styled.div`
 `;
 
 //********** */
+//******* Funciones para Interacción con Smart Contract */
+//********** */
+
+const contrato = "0xff1D128D134eb39668714d50Dec87c7330083151";
+
+//Inicializamos estados
+State.init({
+  abi: "a",
+  sender: "",
+});
+
+//Hacer fetch del abi
+const traerAbi = () => {
+  asyncFetch(
+    "https://copper-ready-guanaco-464.mypinata.cloud/ipfs/QmQ6iEZrFJQv7pdBoqP2tPaZXaLEQCzDG2ULs8TKXeaRKc?_gl=1*1qacxe8*_ga*MTM1ODQ0MTgxMi4xNjk2NzkyMjEz*_ga_5RMPXG14TE*MTcwMTQ0MzAzMi4zOC4xLjE3MDE0NDM0MjYuNjAuMC4w"
+  )
+    .catch((err) => {
+      console.log(err);
+    })
+    .then((res) => {
+      console.log(res.body);
+      State.update({ abi: res.body });
+    });
+};
+traerAbi();
+
+//********** */
 //*******HTML SECTION */
 //********** */
 return (
